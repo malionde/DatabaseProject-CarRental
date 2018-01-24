@@ -1,0 +1,42 @@
+--View
+--1
+
+Create View getTotalAmount
+As
+select [Car].[CAR_USER].[License_No],[Fname],[Lname],[Rental_Amount],[Insurance_Amount],[Tot_Amount]
+from [Car].[RESERVATION] inner join [Car].[CAR_USER]
+on [Car].[CAR_USER].[License_No]=[Car].[RESERVATION].[License_No]
+
+
+--select *from getTotalAmount
+
+--2
+create view WhoUsePromoCode
+as
+select [Car].[OFFER_DETAILS].[Promo_Code],[Description],[Promo_Type],[Tot_Amount]
+from[Car].[OFFER_DETAILS] inner join [Car].[RESERVATION]
+on[Car].[RESERVATION].[Promo_Code]=[Car].[OFFER_DETAILS].[Promo_Code]
+
+--3
+
+create view RentalCarInformation
+as
+select [Car].[CAR].[Car_Type],[Seating_Capacity],[Model],[Year],[Color],[Price_Per_Day]
+from [Car].[CAR_TYPE] inner join [Car].[CAR]
+on [Car].[CAR].[Car_Type]=[Car].[CAR_TYPE].Car_Type
+
+--4
+
+
+create view InsuranceInformation
+as
+select [Car_Type],[Car].[INSURANCE].[Insurance_Type],[Bodily_Coverage],[Medical_Coverage],[Collision_Coverage],[Insurance_Price]
+from [Car].[CAR_INSURANCE] inner join [Car].[INSURANCE]
+on [Car].[INSURANCE].[Insurance_Type]=[Car].[CAR_INSURANCE].[Insurance_Type]
+
+--5
+create view AccessoryInformation
+as
+select [Car].[ACCESSORIES].[Accessory_ID],[Type],[Amount],[Reservation_ID]
+from  [Car].[ACCESSORIES]inner join [Car].[ACCESSORY_RESERVED]
+on [Car].[ACCESSORIES].[Accessory_ID]=[Car].[ACCESSORY_RESERVED].Accessory_ID

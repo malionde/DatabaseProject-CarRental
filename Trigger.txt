@@ -1,0 +1,54 @@
+--Trigger Table can not delete
+--1
+Create Trigger tblntdlt
+on database 
+for Drop_table
+as
+begin 
+print('Table can not deleted')
+rollback
+end
+
+--2
+--Výn deðiþtirilemiyor
+
+create trigger trg_UpdateVIN on[Car].[CAR]    
+after update
+as begin
+
+if(exists(select * from inserted,deleted where inserted.[Reg_No]=deleted.[Reg_No] and inserted.[VIN]!=deleted.[VIN])) 
+begin
+raiserror('VIN can not be change.',1,1)
+rollback transaction
+end
+end
+
+select * from [Car].[CAR]  where [Reg_No] ='XYZ671'  --test of trigger
+update [Car].[CAR] set [VIN]  = 'E902103289341097' where Reg_No ='XYZ671'
+
+
+--3
+
+Create trigger trg_NoPermissonforLicenseDeletion on  [Car].[CAR_USER]  --Admin Accountunu silmeyi engelleyen trigger
+after delete
+as
+begin
+   if(exists(select * from deleted where [License_No] is not null ))
+    begin
+     raiserror('You are not allowed to delete license No:',0,0)
+     rollback transaction
+    end
+end
+
+
+delete from [Car].[CAR_USER] where [License_No] is not null  --test of trigger
+
+--Trigger 
+ create trigger OldCar on [Car].[CAR]
+  after delete
+  as begin
+  insert into[Car].[OutOfUseCars] select[VIN],[Rental_Location_ID],[Reg_No],[Status],[Seating_Capacity],[Disability_Friendly],[Car_Type],[Model],[Year],[Color] from deleted
+  end
+
+  delete from [Car].[CAR] where VIN='E902103289341098'
+

@@ -1,0 +1,199 @@
+--Procedure
+Create Procedure InsertCarUser
+(
+@Fname nvarchar(15),
+@Lname varchar(15),
+@Email varchar(25),
+@Address varchar(100),
+@Phone char(10),
+@DOB date,
+@User_Type varchar(10)
+
+
+)
+as
+Begin
+Insert Into Car.CAR_USER(Fname,Lname,Email,Address,Phone,DOB,User_Type)
+Values(@Fname,@Lname,@Email,@Address,@Phone,@DOB,@User_Type)
+End
+
+--Delete UserCredentials Procedure
+
+
+create procedure DeleteUserCredentials
+(
+@LoginID varchar(15)
+)
+AS
+BEGIN
+delete from [Car].[USER_CREDENTIALS]
+where Login_ID=@LoginID
+END
+
+--exec DeleteUserCredentials 'Cem'
+
+--UpdateCardDetails
+Create Procedure UpdateCardDetails
+(
+@Login_ID varchar(15),
+@CardNo char(16),
+@Expiry_Date date,
+@CVV char(3)
+)
+as
+begin
+update [Car].[CARD_DETAILS]
+SET Card_No=@CardNo,Expiry_Date=@Expiry_Date,CVV=@CVV
+WHERE Login_ID=@Login_ID
+end
+
+-Procedure AddCar
+
+create procedure AddCar
+(
+@VINN char(17),
+@Location_ID int,
+@Status varchar(15),
+@Seating_Capacity int,
+@Car_Type varchar(15)
+)
+as
+begin
+Insert Into[Car].[CAR](VIN,Location_ID,Status,Seating_Capacity,Car_Type)
+Values(@VINN,@Location_ID,@Status,@Seating_Capacity,@Car_Type)
+end
+
+
+--Updadet CarInsurance price
+create procedure updInsurancePrice
+(
+@Insurance_Price money
+)
+as
+begin
+update [Car].[CAR_INSURANCE]
+set Insurance_Price=@Insurance_Price
+end
+
+-- WHO USE THE PROMO CODE
+
+create procedure whoUsePromoCode
+as
+select [License_No],[Promo_Code]
+from[Car].[RESERVATION]
+where Promo_Code is not null
+
+
+--Insert Promo Code
+
+create procedure InsertPromoCode
+(
+@Promo_Code varchar(15),
+@Promo_Type varchar(50),
+@Status varchar(10),
+@Percentage decimal(5,2),
+@Discounted_Amount money,
+@Description varchar(50)
+
+)
+as
+begin
+insert into [Car].[OFFER_DETAILS](Promo_Code,Promo_Type,[Status],[Percentage],Discounted_Amount,[Description])
+values(@Promo_Code,@Promo_Type,@Status,@Percentage,@Discounted_Amount,@Description)
+end
+
+--Delete Promo Code
+
+create procedure DeletePromoCode
+(
+@Promo_Code varchar(15)
+)
+as
+begin
+delete from [Car].[OFFER_DETAILS]
+where Promo_Code=@Promo_Code
+end
+
+--Delete Car
+create Procedure deleteCar
+(
+@VIN char
+)
+as
+begin
+delete from [Car].[CAR]
+where VIN=@VIN
+end
+
+--Update Rental Location
+create procedure UpdateRentalLocation
+(
+@Phone char,
+@Email varchar(25),
+@Street_Name varchar(40),
+@State char(2),
+@Zip_Code char(6)
+)
+as
+begin
+update [Car].[RENTAL_LOCATION]
+set Phone=@Phone,Email=@Email,Street_Name=@Street_Name,State=@State,Zip_Code=@Zip_Code
+end
+
+
+--UpdatePriceCarType
+create procedure UpdatePriceCarType
+(
+@Price_Per_Day money
+)
+as
+begin
+update [Car].[CAR_TYPE]
+set Price_Per_Day=@Price_Per_Day
+end
+
+
+
+--delete reservation
+
+create procedure deleteReservation
+(
+@Reservation_ID int
+)
+as
+begin 
+delete from [Car].[RESERVATION]
+where Reservation_ID=@Reservation_ID
+end
+
+--Show the user credentials
+create procedure usercredentials
+as
+select [License_No],[Year_Of_Membership]
+from[Car].[USER_CREDENTIALS]
+
+--Update Reservation
+create procedure updateReservation
+(
+@Promo_Code varchar(15),
+@Insurance_Type varchar(15),
+@Rental_Amount money,
+@Insurance_Amount money,
+@Additional_Amount money
+)
+as
+begin
+update [Car].[RESERVATION]
+set Promo_Code=@Promo_Code,Insurance_Type=@Insurance_Type,Rental_Amount=@Rental_Amount,Insurance_Amount=@Insurance_Amount,Additional_Amount=@Additional_Amount
+end
+
+--Update User Credentials
+create procedure UpdateUserCredentials
+(
+@Password varchar(15)
+)
+as
+begin
+update[Car].[USER_CREDENTIALS]
+set Password=@Password
+end

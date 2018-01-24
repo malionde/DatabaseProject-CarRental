@@ -1,0 +1,16 @@
+
+--Function
+
+create function ValueAddedTax
+(@Reservation_ID INT)
+returns decimal
+as
+begin
+declare @TotalPrice as decimal
+select @TotalPrice =SUM([Tot_Amount])* 0.18
+FROM [Car].[RESERVATION]
+where [Reservation_ID]=@Reservation_ID
+return @TotalPrice
+end 
+go
+select [dbo].[ValueAddedTax](1)

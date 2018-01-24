@@ -1,0 +1,16 @@
+--Login
+create login Furkan with
+password='6666', 
+default_database=[CarRental],
+CHECK_EXPIRATION=OFF,CHECK_POLICY=ON
+go
+--Login
+create login Mehmet with
+password='1234', 
+default_database=[CarRental],
+CHECK_EXPIRATION=OFF,CHECK_POLICY=ON
+go
+
+EXEC sp_addsrvrolemember 'Furkan', 'sysadmin'
+EXEC sp_addsrvrolemember 'Mehmet', 'sysadmin'
+
